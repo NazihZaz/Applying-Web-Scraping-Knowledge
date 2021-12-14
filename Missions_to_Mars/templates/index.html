@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Mission to Mars</title>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1 class="p-3 mb-2 bg-secondary text-white">Mission to Mars
+            <br><a class="btn btn-primary" href="/scrape" role="button">Scrape New Data</a>
+        </h1>
+    </div>
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <h3>Latest Mars News</h3>
+            {% for i in html_data %}
+            <h5>{{i.news_title}}</h5>
+            <p>{{i.news_paragraph}}</p>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Featured Mars Image</h3>
+                <img src="{{i.featured_image}}" alt="Featured Mars Image" width=860px height=480px>
+            </div>
+            <div class="col-md-4">
+               <h6>Mars Facts</h6> 
+                {{i.mars_facts | safe}}
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="text-center"><br>Mars Hemispheres</h3>
+            <hr>
+            {% for x in image_urls%}
+            <div class="col-md-3">{{i.x}}</div>
+        </div>
+        {% endfor %}
+
+    {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
