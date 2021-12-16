@@ -34,9 +34,6 @@ def scrape():
     # Pull news paragraph
     news_p=soup.find("div",class_="article_teaser_body").text
 
-    # Print news title and paragraph
-    print(f"> Title: {news_title}\n\n> Article Teaser: {news_p}")
-
     # Close the browser
     browser.quit()
 
@@ -63,9 +60,6 @@ def scrape():
     # Pull image url
     featured_image_url=f"{url_space_image}{results[0]['src']}"
 
-    # Print the url
-    print(f"Here is the link to the current Featured Mars Image: {featured_image_url}")
-
     # Close the browser
     browser.quit()
 
@@ -82,29 +76,19 @@ def scrape():
     # Allow the page time to load
     time.sleep(5)
 
-    # Set the Beautiful Soup object with the fully loaded page
-    html = browser.html
-    soup = BeautifulSoup(html, 'html.parser')    
+    # Read Mars facts table
+    mars_df = pd.read_html(url_galaxy_facts)[0]
+    
+    # Reset the data frame header
+    mars_df=mars_df.rename(columns=mars_df.iloc[0]).drop(mars_df.index[0])
 
-    # Read Mars facts table and rename the columns
-    mars_table = pd.read_html(url_galaxy_facts)[1]
-
+    # Convert the data to a HTML table string
+    mars_table=mars_df.to_html(index=False).replace("\n","")
+    
     # Close the browser
     browser.quit()
 
-    # Rename the columns
-    mars_table.columns=["Description","Value"]
-
-    # Reset the data frame index
-    mars_table.set_index("Description")
-
-    # Save the table in html file
-    mars_table.to_html("mars_html.html")
-
-    # Convert the data to a HTML table string
-    mars_html=mars_table.to_html()
-
-
+    
     # Mars Hemispheres
     # Setup splinter
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -204,7 +188,7 @@ def scrape():
     mars_dict={"news_title":news_title,
                "news_paragraph":news_p,
                "featured_image":featured_image_url,
-               "mars_facts":mars_html,
+               "mars_facts":mars_table,
                "image_titles":image_titles,
                "image_urls":image_urls
                }

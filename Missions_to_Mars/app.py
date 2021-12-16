@@ -27,15 +27,16 @@ def home():
 # Route that will trigger the scrape function
 @app.route("/scrape")
 def scrape_app():
-    # Drop previous data in the collection
+    # Drop the previous database
     mars.drop()
     
     # Run the scrape function
     results = scrape_mars.scrape()
 
-    # Update the Mongo database using update and upsert=True
+    # Insert the results in the database
     mars.insert_one(results)
-    print (results)
+    print(results)
+    
     # Redirect back to home page
     return redirect("/")
     
