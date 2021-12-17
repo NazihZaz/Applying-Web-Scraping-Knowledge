@@ -1,6 +1,3 @@
-
-
-
 # Import Dependecies
 import pandas as pd
 from splinter import Browser
